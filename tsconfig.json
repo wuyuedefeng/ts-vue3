@@ -13,6 +13,7 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     // custom
+    "types": ["element-plus/global"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
