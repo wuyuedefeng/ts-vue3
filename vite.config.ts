@@ -7,6 +7,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+import visualizer from 'rollup-plugin-visualizer'
+
 function pathResolve(...args) {
   return resolve(__dirname, '.', ...args)
 }
@@ -22,20 +24,35 @@ export default defineConfig(params => {
     resolve: {
       extensions: ['.json', '.js', '.jsx', '.ts', 'tsx', '.vue'],
       alias: {
-        '@': pathResolve('src')
+        '@': pathResolve('src'),
+        '#': pathResolve('types'),
       }
     },
-    plugins: [
-      vue(),
-      vueJsx(),
-      AutoImport({
-        dts: 'types/auto-imports.d.ts',
-        resolvers: [ElementPlusResolver()],
-      }),
-      Components({
-        dts: 'types/components.d.ts',
-        resolvers: [ElementPlusResolver()],
-      }),
-    ]
+    plugins: getPlugins(),
   }
 })
+
+function getPlugins(): any[] {
+  const plugins = [
+    vue(),
+    vueJsx(),
+    AutoImport({
+      dts: 'types/auto-imports.d.ts',
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      dts: 'types/components.d.ts',
+      resolvers: [ElementPlusResolver()],
+    }),
+  ]
+
+  if (process.env.FOR_ANALYTICS) {
+    plugins.push(visualizer({
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    }))
+  }
+
+  return plugins
+}
