@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useUser } from '@/store'
 
 defineProps<{ msg: string }>()
 
 const count = ref(0)
+
+const userStore = useUser()
+const onTest = () => {
+  userStore.setAuthInfo({token: 'test001'})
+}
 </script>
 
 <template>
@@ -27,6 +33,7 @@ const count = ref(0)
   </p>
 
   <button type="button" @click="count++">count is: {{ count }}</button>
+  <button @click="onTest">test</button>
   <p>
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
