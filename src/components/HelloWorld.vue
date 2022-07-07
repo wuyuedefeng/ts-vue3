@@ -13,7 +13,7 @@ const onTest = () => {
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <h1 class="text-gray-600 text-center">{{ msg }}</h1>
 
   <p>
     Recommended IDE setup:

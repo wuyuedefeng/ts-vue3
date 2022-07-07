@@ -20,6 +20,7 @@ export default defineConfig(params => {
   console.info(`running mode: ${mode}, command: ${command}, ENV: ${JSON.stringify(ENV)}`)
 
   return {
+    plugins: getPlugins(),
     base: './',
     resolve: {
       extensions: ['.json', '.js', '.jsx', '.ts', 'tsx', '.vue'],
@@ -28,7 +29,34 @@ export default defineConfig(params => {
         '#': pathResolve('types'),
       }
     },
-    plugins: getPlugins(),
+    css: {
+      preprocessorOptions: {
+        scss: {
+          charset: false,
+          // additionalData: `$injectedColor: orange;`
+          additionalData: '@import "@/assets/stylesheets/globalInjectedData.scss";'
+        },
+        less: {
+          // modifyVars: {
+          //   '@primary-color': '#1990EB',
+          // },
+          // javascriptEnabled: true,
+        }
+      },
+      // please config in postcss.config.js
+      // postcss: {
+      //   plugins: []
+      // }
+    },
+    build: {
+      rollupOptions: {
+        output:{
+          manualChunks: {
+            // 'lodash-es': ['lodash-es'],
+          }
+        }
+      }
+    }
   }
 })
 
