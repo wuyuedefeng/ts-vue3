@@ -9,6 +9,7 @@
     "build:analytics": "FOR_ANALYTICS=1 npm run build"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "element-plus": "^2.2.8",
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^1.6.1",

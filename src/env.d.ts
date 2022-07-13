@@ -6,3 +6,15 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+import {AxiosRequestConfig as OriginalAxiosRequestConfig} from 'axios'
+declare module 'axios' {
+  export interface AxiosRequestConfig extends OriginalAxiosRequestConfig {
+    // custom properties
+    meta: {
+      retry: number; /*times*/ retryDelay: number; /*ms*/  curRetry: number; /*times*/
+      withProgressBar: boolean;
+      requestKey?: string;
+    }
+  }
+}
