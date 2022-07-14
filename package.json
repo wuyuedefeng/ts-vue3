@@ -1,6 +1,7 @@
 {
   "name": "ts-vue3",
   "private": true,
+  "main": "index.js",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -9,8 +10,10 @@
     "build:analytics": "FOR_ANALYTICS=1 npm run build"
   },
   "dependencies": {
+    "@types/nprogress": "^0.2.0",
     "axios": "^0.27.2",
     "element-plus": "^2.2.8",
+    "nprogress": "^0.2.0",
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^1.6.1",
     "vue": "^3.2.25",

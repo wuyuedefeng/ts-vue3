@@ -1,5 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import supportMetaCancelKey from './supportMetaCancelKey'
+import NProgress from 'nprogress'
 
 // 创建 api 实例
 const apiAxios = new Proxy(axios.create({
@@ -26,13 +27,16 @@ supportMetaCancelKey(apiAxios)
 
 // 请求拦截
 apiAxios.interceptors.request.use((config: AxiosRequestConfig) => {
+  if (config.meta?.withProgressBar) { NProgress.start() }
   return config
 })
 
 // 响应拦截
 apiAxios.interceptors.response.use((response: AxiosResponse<any>) => {
+  if (response.config.meta?.withProgressBar) { NProgress.done() }
   return response
 }, (error: AxiosError) => {
+  if (error.response?.config.meta?.withProgressBar) { NProgress.done() }
   // 请求失败
   const config: AxiosRequestConfig = error.config
   if (axios.isCancel(error)) { // 是否主动取消

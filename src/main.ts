@@ -2,12 +2,13 @@ import { createApp, render } from 'vue'
 
 import App from './App.vue'
 import store from './store';
+import router from './router'
 
 import './assets/stylesheets/application.scss'
 import http from './utils/http'
 
 const app = createApp(App)
-app.use(store).mount('#app')
+app.use(store).use(router).mount('#app')
 
 // 配置到全局变量中 const gv = getCurrentInstance().appContext.config.globalProperties
 app.config.globalProperties.$http = http
