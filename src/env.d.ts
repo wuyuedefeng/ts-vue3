@@ -7,6 +7,15 @@ declare module '*.vue' {
   export default component
 }
 
+import {App as OriginalApp} from 'vue'
+declare module 'vue' {
+  export interface App extends OriginalApp {
+    // custom properties
+    render: (VNode, Element) => void;
+  }
+}
+
+
 import {AxiosRequestConfig as OriginalAxiosRequestConfig} from 'axios'
 declare module 'axios' {
   export interface AxiosRequestConfig extends OriginalAxiosRequestConfig {
