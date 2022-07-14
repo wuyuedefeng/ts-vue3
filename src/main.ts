@@ -12,7 +12,7 @@ app.use(store).mount('#app')
 // 配置到全局变量中 const gv = getCurrentInstance().appContext.config.globalProperties
 app.config.globalProperties.$http = http
 
-app.render = (vnode, rootContainer) => {
+app.render = (vnode, rootContainer): void => {
   if (vnode && !vnode.appContext) vnode.appContext = app._context
   render(vnode, rootContainer)
 }

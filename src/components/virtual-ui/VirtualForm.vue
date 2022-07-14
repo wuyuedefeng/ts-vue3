@@ -3,12 +3,14 @@
 </template>
 
 <script lang='tsx'>
-import { reactive, toRefs, defineComponent, computed } from 'vue'
+import { reactive, toRefs, defineComponent, inject, computed } from 'vue'
 import { useLoading } from '@/utils/hooks/useLoading'
 
 export default defineComponent({
   inheritAttrs: false,
   setup (_props, ctx) {
+    const dialogState = inject('dialogState', null)
+
     const state: any = reactive({
       submitLoading: useLoading(),
       formRef: null,
@@ -38,8 +40,8 @@ export default defineComponent({
         }
         // onCancel
         attrs['onCancel'] = (...args: [any]) => {
-          const onCancel: any = ctx.attrs['onCancel']
-          if (onCancel) { onCancel(...args) }
+          if ((dialogState as any)?.close) { (dialogState as any).close() }
+          if ((dialogState as any)?.onCancel) { (dialogState as any)?.onCancel(...args) }
         }
         // onReset
         attrs['onReset'] = (...args: [any]) => {
@@ -56,6 +58,7 @@ export default defineComponent({
       ...toRefs(state),
       slotData: computed(() => {
         return {
+          dialogState,
           formRef: state.formRef,
           formAttrs: state.formAttrs,
           submitLoading: state.submitLoading,

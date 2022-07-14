@@ -11,7 +11,7 @@ import {App as OriginalApp} from 'vue'
 declare module 'vue' {
   export interface App extends OriginalApp {
     // custom properties
-    render: (VNode, Element) => void;
+    render: (vnode: VNode | null, container: Element) => void;
   }
 }
 
