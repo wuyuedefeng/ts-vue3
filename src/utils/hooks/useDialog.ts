@@ -1,12 +1,14 @@
-import { getCurrentInstance, createVNode, defineComponent, reactive, ref, provide, h, ComponentInternalInstance, App } from 'vue'
-import { ElDialog } from 'element-plus'
+import type { App, ComponentInternalInstance } from 'vue'
+import { getCurrentInstance, createVNode, defineComponent, reactive, ref, provide, inject, h } from 'vue'
+import { ElDialog, ElConfigProvider } from 'element-plus'
 
 const DialogComponent = defineComponent({
   props: {
     options: {
       type: Object,
       required: true,
-    }
+    },
+    configProvider: [Object]
   },
   setup(props) {
     const { children, ...otherOptions }  = props.options
@@ -32,7 +34,12 @@ const DialogComponent = defineComponent({
     return { dialogState }
   },
   render() {
-    return h(ElDialog, this.dialogState, this.options.children || {})
+    const dialog = h(ElDialog, this.dialogState, this.options.children || {})
+    return this.configProvider ? h(ElConfigProvider, {
+      locale: this.configProvider.locale,
+    }, {
+      default: () => dialog
+    }) : dialog
   },
 })
 
@@ -52,7 +59,8 @@ const DialogComponent = defineComponent({
 //  }
 // })
 
-export const useDialog = (defaultOptions: object) => {
+export const useDialog = (defaultOptions?: object) => {
+  const configProvider = inject('elConfigProvider', null)
   const instance = getCurrentInstance() as ComponentInternalInstance
   console.assert(!!instance, 'getCurrentInstance无法获取到实例，请检查')
   const app = instance.appContext.app as App
@@ -77,7 +85,8 @@ export const useDialog = (defaultOptions: object) => {
               (options as any).onClosed()
             }
           },
-        }
+        },
+        configProvider
       })
       dialogVNode.appContext = instance.appContext
       app.render(dialogVNode, div)

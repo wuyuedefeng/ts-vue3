@@ -5,6 +5,7 @@ import store from './store';
 import router from './router'
 
 import './assets/stylesheets/application.scss'
+import 'element-plus/dist/index.css'
 import http from './utils/http'
 
 const app = createApp(App)

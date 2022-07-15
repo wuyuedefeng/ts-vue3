@@ -1,64 +1,33 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup lang="tsx">
 import { useUser } from '@/store'
+import { useDialog } from '@/utils/hooks/useDialog'
 
 defineProps<{ msg: string }>()
 
-const count = ref(0)
-
 const userStore = useUser()
-const onTest = () => {
+const onTestSetAuthInfo = () => {
   userStore.setAuthInfo({token: 'test001'})
 }
+
+const dialog = useDialog()
+const onTestDialog = () => {
+  dialog.create({
+    title: 'test001',
+    children: {
+      default: () => <div>hello</div>,
+    }
+  })
+}
+
 </script>
 
 <template>
   <h1 class="text-gray-600 text-center">{{ msg }}</h1>
-
-  <p>
-    Recommended IDE setup:
-    <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
-    +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
-
-  <p>See <code>README.md</code> for more information.</p>
-
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Docs
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
-  </p>
-
-  <button type="button" @click="count++">count is: {{ count }}</button>
-  <button @click="onTest">test</button>
-
-  <div>
-    <el-button type="primary">el-button</el-button>
-  </div>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
-
+  <el-space>
+    <el-button @click="onTestSetAuthInfo">testSetAuthInfo</el-button>
+    <el-button @click="onTestDialog">testDialog</el-button>
+  </el-space>
 </template>
 
 <style scoped>
-a {
-  color: #42b983;
-}
-
-label {
-  margin: 0 0.5em;
-  font-weight: bold;
-}
-
-code {
-  background-color: #eee;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #304455;
-}
 </style>
