@@ -1,5 +1,5 @@
 import type { App, ComponentInternalInstance } from 'vue'
-import { getCurrentInstance, createVNode, defineComponent, reactive, ref, provide, inject, h } from 'vue'
+import { getCurrentInstance, createVNode, defineComponent, reactive, ref, provide, inject, h, onUnmounted } from 'vue'
 import { ElDialog, ElConfigProvider } from 'element-plus'
 
 const DialogComponent = defineComponent({
@@ -59,14 +59,14 @@ const DialogComponent = defineComponent({
 //  }
 // })
 
-export const useDialog = (defaultOptions?: object) => {
+export const useDialog = (defaultOptions?: object): object => {
   const configProvider = inject('elConfigProvider', null)
   const instance = getCurrentInstance() as ComponentInternalInstance
   console.assert(!!instance, 'getCurrentInstance无法获取到实例，请检查')
   const app = instance.appContext.app as App
 
   return {
-    create (options: object) {
+    create (options: object): object {
       const div = document.createElement('div')
       div.setAttribute('class', 'use-dialog-container')
       document.body.appendChild(div)
